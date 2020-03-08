@@ -55,7 +55,11 @@ public class MediaAgent {
 	/** Active media streamers, as table of: (String)media-->(MediaStreamer)media_streamer */
 	Hashtable media_streamers=new Hashtable();
 
+	public void setAudioStreamerFactory(MediaStreamFactory audio_streamer_factory) {
+		this.audio_streamer_factory = audio_streamer_factory;
+	}
 
+	MediaStreamFactory audio_streamer_factory;
 
 	/** Creates a new MediaAgent. */
 	public MediaAgent(UserAgentProfile ua_profile, Logger logger) {
@@ -185,7 +189,10 @@ public class MediaAgent {
 			if (ua_profile.recv_file!=null) audio_out=ua_profile.recv_file;        
 
 			// javax-based audio streamer
-			if (ua_profile.javax_sound_streamer==null) {
+			if(null != audio_streamer_factory) {
+				audio_streamer = audio_streamer_factory.apply(audio_flow, logger);
+			}
+			else if (ua_profile.javax_sound_streamer==null) {
 				// standard javax-based audio streamer
 				audio_streamer=new AudioStreamer(audio_flow,audio_in,audio_out,ua_profile.javax_sound_direct_convertion,null,ua_profile.javax_sound_sync,ua_profile.random_early_drop_rate,ua_profile.symmetric_rtp,logger);
 			}

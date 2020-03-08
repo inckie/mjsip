@@ -28,10 +28,7 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.Vector;
 
-import org.mjsip.media.AudioClipPlayer;
-import org.mjsip.media.FlowSpec;
-import org.mjsip.media.MediaDesc;
-import org.mjsip.media.MediaSpec;
+import org.mjsip.media.*;
 import org.mjsip.sdp.MediaDescriptor;
 import org.mjsip.sdp.OfferAnswerModel;
 import org.mjsip.sdp.SdpMessage;
@@ -980,4 +977,7 @@ public class UserAgent extends CallListenerAdapter implements SipProviderListene
 		log(level,"Exception: "+ExceptionPrinter.getStackTraceOf(e));
 	}
 
+	public void setAudioStreamerFactory(MediaStreamFactory audio_streamer_factory) {
+		this.media_agent.setAudioStreamerFactory(audio_streamer_factory);
+	}
 }
